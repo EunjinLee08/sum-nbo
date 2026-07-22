@@ -4,13 +4,14 @@
 #include <netinet/in.h>
 
 int main(int argc, char* argv[]) {
-	if (argc != 4) {
-		printf("need 3 arguments\n");
+	if (argc == 1) {
+		printf("need more arguments\n");
 		return 1;
 	}
 
 	uint32_t to_add[3] = { 0x0, 0x0, 0x0};
-	for (int i = 0; i < 3; i++) {
+	uint32_t total = 0x0;
+	for (int i = 0; i < argc - 1; i++) {
 		FILE* fp = fopen(argv[i + 1], "rb");
 		if (fp == nullptr) {
 			printf("file open error\n");
@@ -23,10 +24,12 @@ int main(int argc, char* argv[]) {
 			return 1;
 		}
 		to_add[i] = ntohl(to_add[i]);
+		total = total + to_add[i];
+		if (i == 0) printf("%d(0x%x)", to_add[i], to_add[i]);
+		else printf(" + %d(0x%x)", to_add[i], to_add[i]);
 		fclose(fp);
 	}
 	
-	uint32_t sum_hbo = to_add[0] + to_add[1] + to_add[2];
-	printf("%d(0x%x) + %d(0x%x) + %d(0x%x) = %d(0x%x)\n", to_add[0], to_add[0], to_add[1], to_add[1], to_add[2], to_add[2], sum_hbo, sum_hbo);
+	printf(" = %d(0x%x)\n", total, total);
 	return 0;
 }
