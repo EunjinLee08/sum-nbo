@@ -9,7 +9,7 @@ int main(int argc, char* argv[]) {
 		return 1;
 	}
 
-	uint32_t to_add[3] = { 0x0, 0x0, 0x0};
+	uint32_t to_add;
 	uint32_t total = 0x0;
 	for (int i = 0; i < argc - 1; i++) {
 		FILE* fp = fopen(argv[i + 1], "rb");
@@ -18,15 +18,15 @@ int main(int argc, char* argv[]) {
 			return 1;
 		}
 
-		if(fread(&to_add[i], sizeof(to_add[i]), 1, fp) != 1) {
+		if(fread(&to_add, sizeof(to_add), 1, fp) != 1) {
 			printf("error\n");
 			fclose(fp);
 			return 1;
 		}
-		to_add[i] = ntohl(to_add[i]);
-		total = total + to_add[i];
-		if (i == 0) printf("%d(0x%x)", to_add[i], to_add[i]);
-		else printf(" + %d(0x%x)", to_add[i], to_add[i]);
+		to_add[i] = ntohl(to_add);
+		total = total + to_add;
+		if (i == 0) printf("%d(0x%x)", to_add, to_add);
+		else printf(" + %d(0x%x)", to_add, to_add);
 		fclose(fp);
 	}
 	
