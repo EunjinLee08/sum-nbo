@@ -23,7 +23,7 @@ int main(int argc, char* argv[]) {
 			fclose(fp);
 			return 1;
 		}
-		to_add[i] = ntohl(to_add);
+		to_add = ntohl(to_add);
 		total = total + to_add;
 		if (i == 0) printf("%d(0x%x)", to_add, to_add);
 		else printf(" + %d(0x%x)", to_add, to_add);
